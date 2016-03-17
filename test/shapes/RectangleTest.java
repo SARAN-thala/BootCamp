@@ -1,5 +1,6 @@
 package shapes;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -11,33 +12,47 @@ public class RectangleTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    @Test
-    public void area_should_return_the_area_of_rectangle() throws Exception, NegativeValueException {
-        Rectangle rectangle = Rectangle.createRectangle(20,10);
-        assertEquals(200.0,rectangle.calculateArea());
+    private Rectangle rectangleWithWholeNumber;
+    private Rectangle rectangleWithFloatingPoints;
+
+    @Before
+    public void setUp() throws NonPositiveValueException {
+        rectangleWithWholeNumber = Rectangle.createRectangle(20, 10);
+        rectangleWithFloatingPoints = Rectangle.createRectangle(10.5, 10);
     }
 
     @Test
-    public void a_rectangle_will_throws_error_message_when_try_to_create_by_negative_values() throws Exception, NegativeValueException {
-        thrown.expectMessage("Can't create rectangle with negative value ");
-        Rectangle rectangle = Rectangle.createRectangle(-1, 2);
+    public void should_return_the_area_of_the_rectangle_which_has_positive_sides() {
+        assertEquals(200.0, rectangleWithWholeNumber.calculateArea());
     }
 
     @Test
-    public void area_should_return_the_area_of_rectangle_in_float() throws Exception, NegativeValueException {
-        Rectangle rectangle = Rectangle.createRectangle(10.5,10);
-        assertEquals(105.0,rectangle.calculateArea());
+    public void should_return_the_area_of_rectangle_in_float_which_has_floating_point_sides() {
+        assertEquals(105.0, rectangleWithFloatingPoints.calculateArea());
+    }
+
+
+    @Test
+    public void should_return_the_perimeter_of_given_rectangle_which_has_floating_point_sides() {
+        assertEquals(60.0, rectangleWithWholeNumber.calculatePerimeter());
     }
 
     @Test
-    public void perimeter_should_return_the_perimeter_of_given_rectangle() throws Exception, NegativeValueException {
-        Rectangle rectangle = Rectangle.createRectangle(25,10);
-        assertEquals(70.0,rectangle.calculatePerimeter());
+    public void should_return_the_perimeter_of_given_rectangle_which_has_positive_int_values() {
+        assertEquals(41.0, rectangleWithFloatingPoints.calculatePerimeter());
     }
 
     @Test
-    public void perimeter_should_return_the_perimeter_of_given_rectangle_in_float() throws Exception, NegativeValueException {
-        Rectangle rectangle = Rectangle.createRectangle(25.5,9.5);
-        assertEquals(70.0,rectangle.calculatePerimeter());
+    public void rectangle_will_throws_error_message_when_try_to_create_by_negative_values() throws NonPositiveValueException {
+        thrown.expectMessage("Can't create rectangle with length -1.0 and width 2.0");
+        thrown.expect(NonPositiveValueException.class);
+        Rectangle.createRectangle(-1, 2);
+    }
+
+    @Test
+    public void rectangle_will_throws_error_message_when_try_to_create_by_null_values() throws NonPositiveValueException {
+        thrown.expect(NonPositiveValueException.class);
+        thrown.expectMessage("Can't create rectangle with length 0.0 and width 2.0");
+        Rectangle.createRectangle(0, 2);
     }
 }

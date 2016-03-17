@@ -19,12 +19,12 @@ public class Rectangle {
     }
 
     public double calculatePerimeter() {
-        return (2*(this.length+this.width));
+        return 2*(this.length+this.width);
     }
 
-    public static Rectangle createRectangle(double length,double width) throws NegativeValueException {
-        if (length < 0  || width < 0)
-            throw new NegativeValueException();
+    public static Rectangle createRectangle(double length,double width) throws NonPositiveValueException {
+        if (length <= 0  || width <= 0)
+            throw new NonPositiveValueException(length,width);
         return new Rectangle(length,width);
     }
 }
