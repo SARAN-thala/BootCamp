@@ -7,13 +7,13 @@ package chances;
 import exceptions.InvalidProbability;
 
 public class ChanceRepresenter {
-    private double probability;
+    private Double probability;
 
-    private ChanceRepresenter(double probability) {
+    private ChanceRepresenter(Double probability) {
         this.probability = probability;
     }
 
-    public static ChanceRepresenter createChance(double probability) throws InvalidProbability {
+    public static ChanceRepresenter createChance(Double probability) throws InvalidProbability {
         if (probability < 0 || probability > 1)
             throw new InvalidProbability("Expected values between 0 and 1, but got: " + probability);
         return new ChanceRepresenter(probability);
@@ -32,7 +32,19 @@ public class ChanceRepresenter {
     }
 
     @Override
-    public String toString() {
-        return probability * 100 + "%";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ChanceRepresenter that = (ChanceRepresenter) o;
+
+        return Double.compare(that.probability, probability) == 0;
+
+    }
+
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(probability);
+        return (int) (temp ^ (temp >>> 32));
     }
 }
