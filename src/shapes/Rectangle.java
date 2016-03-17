@@ -1,15 +1,17 @@
 package shapes;
 
+import exceptions.NonPositiveValueException;
+
 /*
     Job of Rectangle Class:
     - any operation that involves length and/or width of Rectangle
           calculateArea,calculatePerimeter...
  */
-public class Rectangle {
+public class Rectangle{
     private final double length;
     private final double width;
 
-    private Rectangle(double length, double width) {
+    protected Rectangle(double length, double width) {
         this.length = length;
         this.width = width;
     }
@@ -23,8 +25,8 @@ public class Rectangle {
     }
 
     public static Rectangle createRectangle(double length,double width) throws NonPositiveValueException {
-        if (length <= 0  || width <= 0)
-            throw new NonPositiveValueException(length,width);
+        if (length <= 0 || width <= 0)
+            throw new NonPositiveValueException("Can't create rectangle with length "+length+" and width "+width);
         return new Rectangle(length,width);
     }
 }
