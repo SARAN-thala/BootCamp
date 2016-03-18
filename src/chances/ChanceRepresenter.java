@@ -6,28 +6,28 @@ package chances;
 
 import exceptions.InvalidProbability;
 
-public class ChanceRepresenter {
+class ChanceRepresenter {
     private Double probability;
 
     private ChanceRepresenter(Double probability) {
         this.probability = probability;
     }
 
-    public static ChanceRepresenter createChance(Double probability) throws InvalidProbability {
+    static ChanceRepresenter createChance(Double probability) throws InvalidProbability {
         if (probability < 0 || probability > 1)
             throw new InvalidProbability("Expected values between 0 and 1, but got: " + probability);
         return new ChanceRepresenter(probability);
     }
 
-    public ChanceRepresenter and(ChanceRepresenter anotherProbability) {
+    ChanceRepresenter and(ChanceRepresenter anotherProbability) {
         return new ChanceRepresenter(this.probability * anotherProbability.probability);
     }
 
-    public ChanceRepresenter or(ChanceRepresenter anotherProbability) {
+    ChanceRepresenter or(ChanceRepresenter anotherProbability) {
         return new ChanceRepresenter(this.probability + anotherProbability.probability);
     }
 
-    public ChanceRepresenter not() {
+    ChanceRepresenter not() {
         return new ChanceRepresenter(1 - this.probability);
     }
 
@@ -39,11 +39,5 @@ public class ChanceRepresenter {
         ChanceRepresenter that = (ChanceRepresenter) o;
 
         return Double.compare(that.probability, probability) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        long temp = Double.doubleToLongBits(probability);
-        return (int) (temp ^ (temp >>> 32));
     }
 }
