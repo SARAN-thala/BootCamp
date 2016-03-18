@@ -39,7 +39,6 @@ public class ChanceRepresenter {
         ChanceRepresenter that = (ChanceRepresenter) o;
 
         return Double.compare(that.probability, probability) == 0;
-
     }
 
     @Override
